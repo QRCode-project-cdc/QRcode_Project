@@ -24,10 +24,18 @@
             android:layout_marginTop="64dp"/>
 
         <Button
+            android:id="@+id/buttonEventOn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="150dp"
+            android:backgroundTint="@color/sky_blue"
+            android:text="Eventos Disponíveis"
+            android:textColor="@color/text_primary" />
+
+        <Button
             android:id="@+id/buttonViewProfile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="100dp"
             android:backgroundTint="@color/sky_blue"
             android:text="Ver Perfil"
             android:textColor="@color/text_primary" />
@@ -39,5 +47,17 @@
             android:backgroundTint="@color/sky_blue"
             android:text="Gerar QR Code"
             android:textColor="@color/text_primary" />
+
+
+        <Button
+            android:id="@+id/buttonQuit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="250dp"
+            android:backgroundTint="@color/sky_blue"
+            android:text="Logout"
+            android:textColor="@color/text_primary" />
+
+
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

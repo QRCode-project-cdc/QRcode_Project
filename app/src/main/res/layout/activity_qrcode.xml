@@ -7,4 +7,26 @@
     android:layout_height="match_parent"
     tools:context=".QRCodeActivity">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/textViewQRInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="QRCode com as informações do usuário"
+            android:textSize="18sp"
+            android:paddingBottom="16dp" />
+
+        <ImageView
+            android:id="@+id/imageViewQRCode"
+            android:layout_width="250dp"
+            android:layout_height="250dp" />
+
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

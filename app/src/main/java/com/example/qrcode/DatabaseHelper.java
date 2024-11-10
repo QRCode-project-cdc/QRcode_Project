@@ -77,6 +77,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return name; // Retorna o nome do usuário ou null se não encontrado
     }
 
+    public String getUserRGM(String email) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT " + COLUMN_RGM + " FROM " + TABLE_USERS + " WHERE " + COLUMN_EMAIL + "=?", new String[]{email});
+        String rgm = null;
+        if (cursor.moveToFirst()) {
+            rgm = cursor.getString(0);
+        }
+        cursor.close();
+        db.close();
+        return rgm;
+    }
+
     // Método para verificar se o e-mail já existe
     public boolean emailExists(String email) {
         if (email == null) {

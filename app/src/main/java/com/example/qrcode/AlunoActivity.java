@@ -2,7 +2,6 @@ package com.example.qrcode;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,6 +33,7 @@ public class AlunoActivity extends AppCompatActivity {
         Button buttonQRCode = findViewById(R.id.buttonQRCode);
         buttonQRCode.setOnClickListener(v -> {
             Intent qrCodeIntent = new Intent(AlunoActivity.this, QRCodeActivity.class);
+            qrCodeIntent.putExtra("USER_EMAIL", email); // Corrigido para usar a variável correta 'email'
             startActivity(qrCodeIntent);
         });
     }
