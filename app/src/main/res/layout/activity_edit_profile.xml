@@ -34,14 +34,30 @@
         android:backgroundTint="@color/sky_blue"
         android:padding="12dp"/>
 
-    <EditText
-        android:id="@+id/inputPassword"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:hint="Senha"
-        android:backgroundTint="@color/sky_blue"
-        android:padding="12dp"/>
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp">
+
+        <EditText
+            android:id="@+id/inputPassword"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Senha"
+            android:backgroundTint="@color/sky_blue"
+            android:padding="12dp"
+            android:inputType="textPassword" /> <!-- Define o tipo de entrada como senha -->
+
+        <Button
+            android:id="@+id/buttonTogglePassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:backgroundTint="@color/sky_blue"
+            android:text="Mostrar" /> <!-- Margem para separar do EditText -->
+    </LinearLayout>
 
     <Button
         android:id="@+id/buttonSave"

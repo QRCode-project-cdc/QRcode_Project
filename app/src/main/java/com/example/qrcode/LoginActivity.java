@@ -15,6 +15,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText inputEmail, inputPassword;
     private Button buttonLogin;
     private TextView textRegisterLink;
+    private DatabaseHelper databaseHelper; // Adicionando o DatabaseHelper
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,26 +28,29 @@ public class LoginActivity extends AppCompatActivity {
         buttonLogin = findViewById(R.id.buttonLogin);
         textRegisterLink = findViewById(R.id.textRegisterLink);
 
+        // Inicializa o DatabaseHelper
+        databaseHelper = new DatabaseHelper(this);
+
         // Ação do botão de login
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Verifica se o e-mail e senha não estão vazios
                 if (validateInputs()) {
-                    String email = inputEmail.getText().toString();
+                    String email = inputEmail.getText().toString().trim();
+                    String password = inputPassword.getText().toString().trim();
 
-                    // Simula a verificação de login (apenas para teste)
-                    if (email.equals("1")) {
-                        // Se for o email do professor, abre a ProfessorActivity
-                        Intent intent = new Intent(LoginActivity.this, NextActivity.class);
+                    // Verifica as credenciais no banco de dados
+                    if (databaseHelper.checkUser (email, password)) {
+                        // Se o usuário for encontrado, navega para a tela de perfil
+                        Intent intent = new Intent(LoginActivity.this, UserProfileActivity.class);
+                        intent.putExtra("EMAIL", email);
+                        intent.putExtra("PASSWORD", password); // Opcional, se você quiser mostrar a senha censurada
                         startActivity(intent);
-                    } else if (email.equals("2")) {
-                        // Se for o email do aluno, abre a AlunoActivity
-                        Intent intent = new Intent(LoginActivity.this, User_Profile.class);
-                        startActivity(intent);
+                        finish(); // Fecha a tela de login
                     } else {
-                        // Caso o e-mail não seja encontrado
-                        Toast.makeText(LoginActivity.this, "Usuário não encontrado", Toast.LENGTH_SHORT).show();
+                        // Caso o e-mail ou senha não sejam encontrados
+                        Toast.makeText(LoginActivity.this, "E-mail ou senha inválidos", Toast.LENGTH_SHORT).show();
                     }
                 }
             }

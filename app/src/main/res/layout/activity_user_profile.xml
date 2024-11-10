@@ -9,7 +9,7 @@
     android:orientation="vertical"
     android:padding="16dp"
     app:layout_anchorGravity="center"
-    tools:context=".User_Profile">
+    tools:context=".UserProfileActivity">
 
     <!-- Título -->
     <TextView
