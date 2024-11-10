@@ -38,7 +38,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/titleText" />
+        app:layout_constraintTop_toBottomOf="@id/titleText"
+        android:visibility="gone" />
 
     <!-- Input E-mail -->
     <EditText
@@ -54,6 +55,7 @@
         android:inputType="textEmailAddress"
         android:padding="12dp"
         android:textColorHint="@color/text_secondary"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -61,7 +63,7 @@
 
     <!-- Input Data de Nascimento -->
     <EditText
-        android:id="@+id/inputDateOfBirth"
+        android:id="@+id/inputRGM"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -69,11 +71,12 @@
         android:layout_marginEnd="16dp"
         android:backgroundTint="@color/sky_blue"
         android:gravity="center"
-        android:hint="Data de Nascimento (dd/mm/yyyy)"
+        android:hint="RGM"
         android:inputType="number"
         android:maxLength="10"
         android:padding="12dp"
         android:textColorHint="@color/text_secondary"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -96,20 +99,24 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/inputDateOfBirth" />
+        app:layout_constraintTop_toBottomOf="@id/inputRGM"
+        android:visibility="gone" />
 
     <!-- Tipo de Cadastro (Professor ou Aluno) -->
+
+    <!-- Botão de Cadastro -->
+
     <RadioGroup
         android:id="@+id/radioGroupType"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="152dp"
         android:layout_marginEnd="16dp"
         android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/inputPassword">
 
@@ -129,19 +136,47 @@
             android:textColor="@color/text_primary" />
     </RadioGroup>
 
-    <!-- Botão de Cadastro -->
     <Button
         android:id="@+id/buttonSubmit"
         android:layout_width="358dp"
         android:layout_height="46dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="36dp"
         android:layout_marginEnd="16dp"
         android:backgroundTint="@color/sky_blue"
         android:text="Cadastrar"
         android:textColor="@color/text_primary"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.476"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/radioGroupType" />
+
+    <TextView
+        android:id="@+id/questionText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:text="Qual área deseja acessar?"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/inputName" />
+
+    <Button
+        android:id="@+id/buttonContinue"
+        android:layout_width="358dp"
+        android:layout_height="46dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="16dp"
+        android:backgroundTint="@color/sky_blue"
+        android:text="Continuar"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.476"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroupType" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
