@@ -16,7 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.qrcode.AlunoActivity;
 import com.example.qrcode.ProfessorActivity;
 
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterActivity<CharSequenceSurname> extends AppCompatActivity {
 
     private EditText inputName, inputEmail, inputDateOfBirth, inputPassword;
     private RadioGroup radioGroupType;
@@ -62,26 +62,38 @@ public class RegisterActivity extends AppCompatActivity {
         });
 
         inputName.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {}
+            private boolean isFormatting;
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int start, int before, int after) {
-                // Verifica se a primeira letra não é maiúscula e formata automaticamente
-                if (charSequence.length() > 0) {
-                    String name = charSequence.toString();
-                    String formattedName = name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
-                    if (!name.equals(formattedName)) {
-                        inputName.setText(formattedName);
-                        inputName.setSelection(formattedName.length()); // Move o cursor para o final do texto
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (isFormatting) return;
+
+                isFormatting = true;
+                StringBuilder formatted = new StringBuilder();
+                boolean capitalizeNext = true;
+
+                for (char c : s.toString().toCharArray()) {
+                    if (capitalizeNext && Character.isLetter(c)) {
+                        formatted.append(Character.toUpperCase(c));
+                        capitalizeNext = false;
+                    } else {
+                        formatted.append(c);
                     }
+                    if (Character.isWhitespace(c)) capitalizeNext = true;
                 }
+
+                if (!s.toString().equals(formatted.toString())) {
+                    s.replace(0, s.length(), formatted.toString());
+                }
+                isFormatting = false;
             }
-
-            @Override
-            public void afterTextChanged(Editable editable) {}
         });
-
     }
 
 
