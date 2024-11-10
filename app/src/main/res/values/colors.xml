@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Realistic Futuristic Theme Colors -->
+<resources>
+    <color name="background_white">#E0E0E0</color>
+    <color name="blue_bg">#0E61F0</color>
+
+    <color name="stone_gray">#8A8A8A</color>
+    <color name="earthy_brown">#795548</color>
+    <color name="forest_green">#2E7D32</color>
+    <color name="sky_blue">#03A9F4</color>
+    <color name="sun_yellow">#FFD700</color>
+
+    <color name="neon_purple">#9C27B0</color>
+    <color name="electric_blue">#00B8D4</color>
+    <color name="bright_orange">#FF6F00</color>
+    <color name="cyber_green">#00E676</color>
+    <color name="metallic_silver">#B0BEC5</color>
+    <color name="holographic_pink">#FF4081</color>
+
+    <color name="text_primary">#FFFFFF</color>
+    <color name="text_secondary">#B5B5B5</color>
+</resources>
