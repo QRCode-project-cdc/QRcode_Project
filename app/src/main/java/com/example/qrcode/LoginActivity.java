@@ -42,7 +42,7 @@ public class LoginActivity extends AppCompatActivity {
                         startActivity(intent);
                     } else if (email.equals("2")) {
                         // Se for o email do aluno, abre a AlunoActivity
-                        Intent intent = new Intent(LoginActivity.this, NextActivity.class);
+                        Intent intent = new Intent(LoginActivity.this, User_Profile.class);
                         startActivity(intent);
                     } else {
                         // Caso o e-mail não seja encontrado

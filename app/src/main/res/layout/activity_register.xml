@@ -1,8 +1,10 @@
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="@color/blue_bg"
     tools:context=".RegisterActivity">
 
@@ -15,16 +17,13 @@
         android:textColor="@color/text_primary"
         android:textSize="36sp"
         android:textStyle="bold"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        android:layout_marginTop="64dp"/>
+        android:layout_marginTop="64dp"
+        android:layout_gravity="center"/>
 
     <!-- Input Nome -->
     <EditText
         android:id="@+id/inputName"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
@@ -35,16 +34,12 @@
         android:inputType="textPersonName"
         android:padding="12dp"
         android:textColorHint="@color/text_secondary"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/titleText"
         android:visibility="gone" />
 
     <!-- Input E-mail -->
     <EditText
         android:id="@+id/inputEmail"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
@@ -55,16 +50,12 @@
         android:inputType="textEmailAddress"
         android:padding="12dp"
         android:textColorHint="@color/text_secondary"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/inputName" />
+        android:visibility="gone" />
 
     <!-- Input Data de Nascimento -->
     <EditText
         android:id="@+id/inputRGM"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
@@ -76,16 +67,12 @@
         android:maxLength="10"
         android:padding="12dp"
         android:textColorHint="@color/text_secondary"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/inputEmail" />
+        android:visibility="gone" />
 
     <!-- Input Senha -->
     <EditText
         android:id="@+id/inputPassword"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
@@ -96,87 +83,67 @@
         android:inputType="textPassword"
         android:padding="12dp"
         android:textColorHint="@color/text_secondary"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/inputRGM"
         android:visibility="gone" />
 
-    <!-- Tipo de Cadastro (Professor ou Aluno) -->
-
-    <!-- Botão de Cadastro -->
-
-    <RadioGroup
-        android:id="@+id/radioGroupType"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="152dp"
-        android:layout_marginEnd="16dp"
-        android:gravity="center"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/inputPassword">
-
-        <RadioButton
-            android:id="@+id/radioProfessor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Professor"
-            android:textColor="@color/text_primary" />
-
-        <RadioButton
-            android:id="@+id/radioAluno"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:text="Aluno"
-            android:textColor="@color/text_primary" />
-    </RadioGroup>
-
-    <Button
-        android:id="@+id/buttonSubmit"
-        android:layout_width="358dp"
-        android:layout_height="46dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="36dp"
-        android:layout_marginEnd="16dp"
-        android:backgroundTint="@color/sky_blue"
-        android:text="Cadastrar"
-        android:textColor="@color/text_primary"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.476"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/radioGroupType" />
-
+    <!-- Pergunta -->
     <TextView
         android:id="@+id/questionText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_marginTop="60dp"
         android:text="Qual área deseja acessar?"
         android:textColor="#FFFFFF"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inputName" />
+        android:textSize="24sp" />
 
-    <Button
-        android:id="@+id/buttonContinue"
-        android:layout_width="358dp"
-        android:layout_height="46dp"
+    <!-- Tipo de Cadastro (Professor ou Aluno) -->
+    <RadioGroup
+        android:id="@+id/radioGroupType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
-        android:backgroundTint="@color/sky_blue"
-        android:text="Continuar"
-        android:textColor="#FFFFFF"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.476"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroupType" />
+        android:gravity="center"
+        android:orientation="horizontal">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <RadioButton
+        android:id="@+id/radioProfessor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text ="Professor"
+        android:textColor="@color/text_primary" />
+
+    <RadioButton
+        android:id="@+id/radioAluno"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:text="Aluno"
+        android:textColor="@color/text_primary" />
+</RadioGroup>
+
+<Button
+    android:id="@+id/buttonSubmit"
+    android:layout_width="match_parent"
+    android:layout_height="46dp"
+    android:layout_marginStart="16dp"
+    android:layout_marginTop="36dp"
+    android:layout_marginEnd="16dp"
+    android:backgroundTint="@color/sky_blue"
+    android:text="Cadastrar"
+    android:textColor="@color/text_primary"
+    android:visibility="gone" />
+
+<Button
+    android:id="@+id/buttonContinue"
+    android:layout_width="match_parent"
+    android:layout_height="46dp"
+    android:layout_marginStart="16dp"
+    android:layout_marginTop="36dp"
+    android:layout_marginEnd="16dp"
+    android:backgroundTint="@color/sky_blue"
+    android:text="Continuar"
+    android:textColor="#FFFFFF" />
+
+    </LinearLayout>

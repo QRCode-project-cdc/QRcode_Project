@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/userprofile"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/blue_bg"
+    android:orientation="vertical"
+    android:padding="16dp"
+    app:layout_anchorGravity="center"
+    tools:context=".User_Profile">
+
+    <!-- Título -->
+    <TextView
+        android:id="@+id/titleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="64dp"
+        android:text="Perfil de Usuário"
+        android:textColor="@color/text_primary"
+        android:textSize="36sp"
+        android:textStyle="bold" />
+
+    <!-- Espaço para separação -->
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="54dp" />
+
+    <!-- Nome e Sobrenome -->
+
+    <!-- E-mail -->
+    <TextView
+        android:id="@+id/textName"
+        android:layout_width="379dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="24dp"
+        android:text="Nome e Sobrenome: João da Silva"
+        android:textColor="@color/text_primary"
+        android:textSize="18sp" />
+
+    <!-- Senha (censurada) -->
+    <TextView
+        android:id="@+id/textEmail"
+        android:layout_width="379dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp"
+        android:text="E-mail: joao.silva@email.com"
+        android:textColor="@color/text_primary"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/textPassword"
+        android:layout_width="379dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp"
+        android:text="Senha: ********"
+        android:textColor="@color/text_primary"
+        android:textSize="18sp" />
+
+    <!-- Botão de Editar -->
+    <Button
+        android:id="@+id/buttonEdit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:backgroundTint="@color/sky_blue"
+        android:text="Editar Perfil"
+        android:textColor="@color/text_primary" />
+
+</LinearLayout>

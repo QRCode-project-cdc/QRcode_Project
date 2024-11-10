@@ -12,24 +12,26 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.QrCode"
         tools:targetApi="31">
-
-        <!-- Main Activity -->
+        <activity
+            android:name=".EditProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".User_Profile"
+            android:exported="false" /> <!-- Main Activity -->
         <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".LoginActivity"/>
-        <activity android:name=".RegisterActivity"/>
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".RegisterActivity" />
         <activity android:name=".ProfessorActivity" />
         <activity android:name=".AlunoActivity" />
         <activity android:name=".NextActivity" />
-
-
     </application>
 
 </manifest>
