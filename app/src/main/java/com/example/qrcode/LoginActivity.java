@@ -43,7 +43,7 @@ public class LoginActivity extends AppCompatActivity {
                     // Verifica as credenciais no banco de dados
                     if (databaseHelper.checkUser (email, password)) {
                         // Se o usuário for encontrado, navega para a tela de perfil
-                        Intent intent = new Intent(LoginActivity.this, UserProfileActivity.class);
+                        Intent intent = new Intent(LoginActivity.this, AlunoActivity.class);
                         intent.putExtra("EMAIL", email);
                         intent.putExtra("PASSWORD", password); // Opcional, se você quiser mostrar a senha censurada
                         startActivity(intent);
