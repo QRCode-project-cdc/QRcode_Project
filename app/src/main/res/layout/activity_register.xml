@@ -20,9 +20,9 @@
         android:layout_marginTop="64dp"
         android:layout_gravity="center"/>
 
-    <!-- Input Nome -->
+    <!-- Input Nome do Aluno -->
     <EditText
-        android:id="@+id/inputName"
+        android:id="@+id/inputStudentName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -30,15 +30,15 @@
         android:layout_marginEnd="16dp"
         android:backgroundTint="@color/sky_blue"
         android:gravity="center"
-        android:hint="Nome e sobrenome"
+        android:hint="Nome e sobrenome do Aluno"
         android:inputType="textPersonName"
         android:padding="12dp"
         android:textColorHint="@color/text_secondary"
         android:visibility="gone" />
 
-    <!-- Input E-mail -->
+    <!-- Input Nome do Professor -->
     <EditText
-        android:id="@+id/inputEmail"
+        android:id="@+id/inputTeacherName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -46,13 +46,45 @@
         android:layout_marginEnd="16dp"
         android:backgroundTint="@color/sky_blue"
         android:gravity="center"
-        android:hint="E-mail"
+        android:hint="Nome e sobrenome do Professor"
+        android:inputType="textPersonName"
+        android:padding="12dp"
+        android:textColorHint="@color/text_secondary"
+        android:visibility="gone" />
+
+    <!-- Input E-mail do Aluno -->
+    <EditText
+        android:id="@+id/inputStudentEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:backgroundTint="@color/sky_blue"
+        android:gravity="center"
+        android:hint="E-mail do Aluno"
         android:inputType="textEmailAddress"
         android:padding="12dp"
         android:textColorHint="@color/text_secondary"
         android:visibility="gone" />
 
-    <!-- Input Data de Nascimento -->
+    <!-- Input E-mail do Professor -->
+    <EditText
+        android:id="@+id/inputTeacherEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:backgroundTint="@color/sky_blue"
+        android:gravity="center"
+        android:hint="E-mail do Professor"
+        android:inputType="textEmailAddress"
+        android:padding="12dp"
+        android:textColorHint="@color/text_secondary"
+        android:visibility="gone" />
+
+    <!-- Input RGM -->
     <EditText
         android:id="@+id/inputRGM"
         android:layout_width="match_parent"
@@ -69,9 +101,9 @@
         android:textColorHint="@color/text_secondary"
         android:visibility="gone" />
 
-    <!-- Input Senha -->
+    <!-- Input Senha do Aluno -->
     <EditText
-        android:id="@+id/inputPassword"
+        android:id="@+id/inputStudentPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -79,7 +111,23 @@
         android:layout_marginEnd="16dp"
         android:backgroundTint="@color/sky_blue"
         android:gravity="center"
-        android:hint="Senha"
+        android:hint="Senha do Aluno"
+        android:inputType="textPassword"
+        android:padding="12dp"
+        android:textColorHint="@color/text_secondary"
+        android:visibility="gone" />
+
+    <!-- Input Senha do Professor -->
+    <EditText
+        android:id="@+id/inputTeacherPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:backgroundTint="@color/sky_blue"
+        android:gravity="center"
+        android:hint="Senha do Professor"
         android:inputType="textPassword"
         android:padding="12dp"
         android:textColorHint="@color/text_secondary"
@@ -107,43 +155,43 @@
         android:gravity="center"
         android:orientation="horizontal">
 
-    <RadioButton
-        android:id="@+id/radioProfessor"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text ="Professor"
-        android:textColor="@color/text_primary" />
+        <RadioButton
+            android:id="@+id/radioProfessor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text ="Professor"
+            android:textColor="@color/text_primary" />
 
-    <RadioButton
-        android:id="@+id/radioAluno"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:text="Aluno"
-        android:textColor="@color/text_primary" />
-</RadioGroup>
+        <RadioButton
+            android:id="@+id/radioAluno"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:text="Aluno"
+            android:textColor="@color/text_primary" />
+    </RadioGroup>
 
-<Button
-    android:id="@+id/buttonSubmit"
-    android:layout_width="match_parent"
-    android:layout_height="46dp"
-    android:layout_marginStart="16dp"
-    android:layout_marginTop="36dp"
-    android:layout_marginEnd="16dp"
-    android:backgroundTint="@color/sky_blue"
-    android:text="Cadastrar"
-    android:textColor="@color/text_primary"
-    android:visibility="gone" />
+    <Button
+        android:id="@+id/buttonSubmit"
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="16dp"
+        android:backgroundTint="@color/sky_blue"
+        android:text="Cadastrar"
+        android:textColor="@color/text_primary"
+        android:visibility="gone" />
 
-<Button
-    android:id="@+id/buttonContinue"
-    android:layout_width="match_parent"
-    android:layout_height="46dp"
-    android:layout_marginStart="16dp"
-    android:layout_marginTop="36dp"
-    android:layout_marginEnd="16dp"
-    android:backgroundTint="@color/sky_blue"
-    android:text="Continuar"
-    android:textColor="#FFFFFF" />
+    <Button
+        android:id="@+id/buttonContinue"
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="16dp"
+        android:backgroundTint="@color/sky_blue"
+        android:text="Continuar"
+        android:textColor="#FFFFFF" />
 
-    </LinearLayout>
+</LinearLayout>

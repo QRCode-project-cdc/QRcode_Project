@@ -9,133 +9,191 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "users.db";
-    private static final int DATABASE_VERSION = 1;
-    private static final String TABLE_USERS = "users";
-    private static final String COLUMN_ID = "id";
-    private static final String COLUMN_NAME = "name";
-    private static final String COLUMN_EMAIL = "email";
-    private static final String COLUMN_RGM = "rgm";
-    private static final String COLUMN_PASSWORD = "password";
+    private static final int DATABASE_VERSION = 2; // Aumente a versão para forçar a recriação do banco de dados
+    private static DatabaseHelper instance;
 
-    public DatabaseHelper(Context context) {
+    // Tabelas e colunas para Alunos
+    private static final String TABLE_STUDENTS = "students";
+    private static final String COLUMN_STUDENT_ID = "id";
+    private static final String COLUMN_STUDENT_NAME = "name";
+    private static final String COLUMN_STUDENT_EMAIL = "email";
+    private static final String COLUMN_STUDENT_RGM = "rgm";
+    private static final String COLUMN_STUDENT_PASSWORD = "password";
+
+    // Tabelas e colunas para Professores
+    private static final String TABLE_TEACHERS = "teachers";
+    private static final String COLUMN_TEACHER_ID = "id";
+    private static final String COLUMN_TEACHER_NAME = "name";
+    private static final String COLUMN_TEACHER_EMAIL = "email";
+    private static final String COLUMN_TEACHER_PASSWORD = "password";
+
+    // Construtor privado para evitar instâncias externas
+    private DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    }
+
+    // Método para obter a instância singleton
+    public static synchronized DatabaseHelper getInstance(Context context) {
+        if (instance == null) {
+            instance = new DatabaseHelper(context.getApplicationContext());
+        }
+        return instance;
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String createTable = "CREATE TABLE " + TABLE_USERS + " (" +
-                COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                COLUMN_NAME + " TEXT, " +
-                COLUMN_EMAIL + " TEXT UNIQUE, " +
-                COLUMN_RGM + " TEXT, " +
-                COLUMN_PASSWORD + " TEXT)";
-        db.execSQL(createTable);
+        // Criação da tabela de alunos
+        String createStudentsTable = "CREATE TABLE " + TABLE_STUDENTS + " (" +
+                COLUMN_STUDENT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_STUDENT_NAME + " TEXT, " +
+                COLUMN_STUDENT_EMAIL + " TEXT UNIQUE, " +
+                COLUMN_STUDENT_RGM + " TEXT UNIQUE, " +
+                COLUMN_STUDENT_PASSWORD + " TEXT)";
+        db.execSQL(createStudentsTable);
+
+        // Criação da tabela de professores
+        String createTeachersTable = "CREATE TABLE " + TABLE_TEACHERS + " (" +
+                COLUMN_TEACHER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_TEACHER_NAME + " TEXT, " +
+                COLUMN_TEACHER_EMAIL + " TEXT UNIQUE, " +
+                COLUMN_TEACHER_PASSWORD + " TEXT)";
+        db.execSQL(createTeachersTable);
+    }
+
+    public boolean emailExists(String email) {
+        try (SQLiteDatabase db = this.getReadableDatabase();
+             Cursor cursorStudents = db.rawQuery("SELECT * FROM " + TABLE_STUDENTS + " WHERE " + COLUMN_STUDENT_EMAIL + " = ?", new String[]{email});
+             Cursor cursorTeachers = db.rawQuery("SELECT * FROM " + TABLE_TEACHERS + " WHERE " + COLUMN_TEACHER_EMAIL + " = ?", new String[]{email})) {
+
+            return cursorStudents.getCount() > 0 || cursorTeachers.getCount() > 0;
+        }
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS);
+        // Remove as tabelas antigas e cria novas
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_STUDENTS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_TEACHERS);
         onCreate(db);
     }
 
-    // Método para adicionar um usuário
-    public boolean addUser (String name, String email, String rgm, String password) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(COLUMN_NAME, name);
-        values.put(COLUMN_EMAIL, email);
-        values.put(COLUMN_RGM, rgm);
-        values.put(COLUMN_PASSWORD, password);
-        long result = db.insert(TABLE_USERS, null, values);
-        db.close();
-        return result != -1; // Retorna true se a inserção foi bem-sucedida
-    }
-
-    // Método para verificar se o usuário existe
-    public boolean checkUser (String email, String password) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_USERS + " WHERE " + COLUMN_EMAIL + "=? AND " + COLUMN_PASSWORD + "=?", new String[]{email, password});
-        boolean exists = cursor.getCount() > 0;
-        cursor.close();
-        db.close();
-        return exists; // Retorna true se o usuário foi encontrado
-    }
-
-    // Método para buscar o nome do usuário pelo e-mail
-    public String getUserName(String email) {
-        if (email == null) {
-            return null; // Retorna null se o e-mail for nulo
-        }
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT " + COLUMN_NAME + " FROM " + TABLE_USERS + " WHERE " + COLUMN_EMAIL + "=?", new String[]{email});
-        String name = null;
-        if (cursor.moveToFirst()) {
-            name = cursor.getString(0); // Obtém o nome da primeira coluna
-        }
-        cursor.close();
-        db.close();
-        return name; // Retorna o nome do usuário ou null se não encontrado
-    }
-
-    public String getUserRGM(String email) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT " + COLUMN_RGM + " FROM " + TABLE_USERS + " WHERE " + COLUMN_EMAIL + "=?", new String[]{email});
-        String rgm = null;
-        if (cursor.moveToFirst()) {
-            rgm = cursor.getString(0);
-        }
-        cursor.close();
-        db.close();
-        return rgm;
-    }
-
-    // Método para verificar se o e-mail já existe
-    public boolean emailExists(String email) {
-        if (email == null) {
-            return false; // Retorna false se o e-mail for nulo
-        }
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_USERS + " WHERE " + COLUMN_EMAIL + "=?", new String[]{email});
-        boolean exists = cursor.getCount() > 0;
-        cursor.close();
-        db.close();
-        return exists; // Retorna true se o e-mail já existe
-    }
-
-    // Método para verificar se o usuário existe pelo e-mail
-    public boolean userExists(String email) {
-        if (email == null) {
-            return false; // Retorna false se o e-mail for nulo
-        }
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_USERS + " WHERE " + COLUMN_EMAIL + "=?", new String[]{email });
-        boolean exists = cursor.getCount() > 0;
-        cursor.close();
-        db.close();
-        return exists; // Retorna true se o usuário foi encontrado
-    }
-
-    // Método para atualizar os dados do usuário
-    public boolean updateUser (String currentEmail, String newName, String newEmail, String newPassword) {
-        if (currentEmail == null || newName == null || newEmail == null || newPassword == null) {
-            return false; // Retorna false se algum campo for nulo
-        }
-
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        // Verifica se o novo e-mail já existe (exceto para o e-mail atual)
-        if (!currentEmail.equals(newEmail) && emailExists(newEmail)) {
-            return false; // Retorna false se o novo e-mail já existe
+    // Método para adicionar um aluno
+    public boolean addStudent(String name, String email, String rgm, String password) {
+        if (rgmExists(rgm)) {
+            return false; // Retorna false se o RGM já existe
         }
 
         ContentValues values = new ContentValues();
-        values.put(COLUMN_NAME, newName);
-        values.put(COLUMN_EMAIL, newEmail);
-        values.put(COLUMN_PASSWORD, newPassword);
+        values.put(COLUMN_STUDENT_NAME, name);
+        values.put(COLUMN_STUDENT_EMAIL, email);
+        values.put(COLUMN_STUDENT_RGM, rgm);
+        values.put(COLUMN_STUDENT_PASSWORD, password);
 
-        // Atualiza o usuário com base no e-mail atual
-        int rowsAffected = db.update(TABLE_USERS, values, COLUMN_EMAIL + "=?", new String[]{currentEmail});
-        db.close();
-        return rowsAffected > 0; // Retorna true se a atualização foi bem-sucedida
+        try (SQLiteDatabase db = this.getWritableDatabase()) {
+            long result = db.insert(TABLE_STUDENTS, null, values);
+            return result != -1; // Retorna true se a inserção foi bem-sucedida
+        }
+    }
+
+    // Método para adicionar um professor
+    public boolean addTeacher(String name, String email, String password) {
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_TEACHER_NAME, name);
+        values.put(COLUMN_TEACHER_EMAIL, email);
+        values.put(COLUMN_TEACHER_PASSWORD, password);
+
+        try (SQLiteDatabase db = this.getWritableDatabase()) {
+            long result = db.insert(TABLE_TEACHERS, null, values);
+            return result != -1; // Retorna true se a inserção foi bem-sucedida
+        }
+    }
+
+    // Método para verificar se um aluno existe pelo RGM e senha
+    public boolean checkStudent(String rgm, String password) {
+        try (SQLiteDatabase db = this.getReadableDatabase();
+             Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_STUDENTS + " WHERE " + COLUMN_STUDENT_RGM + "=? AND " + COLUMN_STUDENT_PASSWORD + "=?", new String[]{rgm, password})) {
+            return cursor.getCount() > 0;
+        }
+    }
+
+    // Método para verificar se um professor existe pelo e-mail e senha
+    public boolean checkTeacher(String email, String password) {
+        try (SQLiteDatabase db = this.getReadableDatabase();
+             Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_TEACHERS + " WHERE " + COLUMN_TEACHER_EMAIL + "=? AND " + COLUMN_TEACHER_PASSWORD + "=?", new String[]{email, password})) {
+            return cursor.getCount() > 0;
+        }
+    }
+
+    // Método para verificar se o RGM já existe
+    public boolean rgmExists(String rgm) {
+        try (SQLiteDatabase db = this.getReadableDatabase();
+             Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_STUDENTS + " WHERE " + COLUMN_STUDENT_RGM + "=?", new String[]{rgm})) {
+            return cursor.getCount() > 0;
+        }
+    }
+
+    // Método para atualizar as informações do aluno
+    public boolean updateStudent(String currentRGM, String name, String rgm, String password) {
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_STUDENT_NAME, name);
+        values.put(COLUMN_STUDENT_RGM, rgm);
+        values.put(COLUMN_STUDENT_PASSWORD, password);
+
+        try (SQLiteDatabase db = this.getWritableDatabase()) {
+            int rowsAffected = db.update(TABLE_STUDENTS, values, COLUMN_STUDENT_RGM + "=?", new String[]{currentRGM});
+            return rowsAffected > 0; // Retorna true se pelo menos uma linha foi atualizada
+        }
+    }
+
+    // Método para verificar se um aluno existe pelo e-mail
+    public boolean studentEmailExists(String email) {
+        try (SQLiteDatabase db = this.getReadableDatabase();
+             Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_STUDENTS + " WHERE " + COLUMN_STUDENT_EMAIL + "=?", new String[]{email})) {
+            return cursor.getCount() > 0;
+        }
+    }
+
+    // Método para obter o nome do aluno pelo e-mail
+    public String getStudentName(String email) {
+        try (SQLiteDatabase db = this.getReadableDatabase();
+             Cursor cursor = db.rawQuery("SELECT " + COLUMN_STUDENT_NAME + " FROM " + TABLE_STUDENTS + " WHERE " + COLUMN_STUDENT_EMAIL + "=?", new String[]{email})) {
+            if (cursor.moveToFirst()) {
+                return cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_STUDENT_NAME));
+            }
+        }
+        return null;
+    }
+
+    // Método para obter o RGM do aluno pelo e-mail
+    public String getStudentRGM(String email) {
+        try (SQLiteDatabase db = this.getReadableDatabase();
+             Cursor cursor = db.rawQuery("SELECT " + COLUMN_STUDENT_RGM + " FROM " + TABLE_STUDENTS + " WHERE " + COLUMN_STUDENT_EMAIL + "=?", new String[]{email})) {
+            if (cursor.moveToFirst()) {
+                return cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_STUDENT_RGM));
+            }
+        }
+        return null;
+    }
+
+    // Método para obter o e-mail do aluno pelo RGM
+    public String getStudentEmailByRGM(String rgm) {
+        try (SQLiteDatabase db = this.getReadableDatabase();
+             Cursor cursor = db.rawQuery("SELECT " + COLUMN_STUDENT_EMAIL + " FROM " + TABLE_STUDENTS + " WHERE " + COLUMN_STUDENT_RGM + "=?", new String[]{rgm})) {
+            if (cursor.moveToFirst()) {
+                return cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_STUDENT_EMAIL));
+            }
+        }
+        return null; // Retorna null se não encontrar
+    }
+
+    // Método para obter o nome do aluno pelo RGM
+    public String getStudentNameByRGM(String rgm) {
+        try (SQLiteDatabase db = this.getReadableDatabase();
+             Cursor cursor = db.rawQuery("SELECT " + COLUMN_STUDENT_NAME + " FROM " + TABLE_STUDENTS + " WHERE " + COLUMN_STUDENT_RGM + "=?", new String[]{rgm})) {
+            if (cursor.moveToFirst()) {
+                return cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_STUDENT_NAME));
+            }
+        }
+        return null; // Retorna null se não encontrar
     }
 }

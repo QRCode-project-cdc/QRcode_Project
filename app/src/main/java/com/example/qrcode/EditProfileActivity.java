@@ -1,5 +1,6 @@
 package com.example.qrcode;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,71 +14,108 @@ import androidx.appcompat.app.AppCompatActivity;
 public class EditProfileActivity extends AppCompatActivity {
 
     private EditText inputName;
-    private EditText inputEmail;
+    private EditText inputRGM;
     private EditText inputPassword;
     private Button buttonSave;
-    private DatabaseHelper databaseHelper; // Adicionando o DatabaseHelper
-    private String currentEmail; // E-mail do usuário atual
+    private Button buttonTogglePassword;
+    private DatabaseHelper databaseHelper;
+    private String currentRGM;
+    private boolean isPasswordVisible = false;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
 
+        // Inicializa os componentes da interface
         inputName = findViewById(R.id.inputName);
-        inputEmail = findViewById(R.id.inputEmail);
+        inputRGM = findViewById(R.id.inputRGM);
         inputPassword = findViewById(R.id.inputPassword);
         buttonSave = findViewById(R.id.buttonSave);
-        databaseHelper = new DatabaseHelper(this); // Inicializando o DatabaseHelper
+        buttonTogglePassword = findViewById(R.id.buttonTogglePassword);
+
+        // Inicializa o DatabaseHelper
+        databaseHelper = DatabaseHelper.getInstance(this);
 
         // Receber dados do Intent
         Intent intent = getIntent();
-        currentEmail = intent.getStringExtra("email"); // E-mail do usuário atual
-        inputName.setText(intent.getStringExtra("name")); // Nome atual
-        inputEmail.setText(currentEmail); // E-mail atual
+        currentRGM = intent.getStringExtra("rgm");
+        String name = intent.getStringExtra("name");
 
-        // Verifica se o currentEmail é nulo
-        if (currentEmail == null) {
-            Toast.makeText(this, "E-mail atual não encontrado.", Toast.LENGTH_SHORT).show();
-            finish(); // Fecha a atividade se o e-mail não for encontrado
+        // Verifica se o currentRGM é nulo
+        if (currentRGM == null) {
+            Toast.makeText(this, "RGM atual não encontrado.", Toast.LENGTH_SHORT).show();
+            finish();
             return;
         }
 
+        // Preenche os campos com os dados existentes
+        if (name != null) {
+            inputName.setText(name);
+        } else {
+            inputName.setText(""); // Ou algum valor padrão
+        }
+        inputRGM.setText(currentRGM);
+
+        // Configura o listener para o botão de alternância da senha
+        buttonTogglePassword.setOnClickListener(v -> {
+            if (isPasswordVisible) {
+                // Se a senha está visível, ocultá-la
+                inputPassword.setInputType(129); // 129 é o tipo de entrada para senha
+                buttonTogglePassword.setText("Mostrar");
+            } else {
+                // Se a senha está oculta, mostrá-la
+                inputPassword.setInputType(1); // 1 é o tipo de entrada para texto simples
+                buttonTogglePassword.setText("Ocultar");
+            }
+            isPasswordVisible = !isPasswordVisible;
+        });
+
         buttonSave.setOnClickListener(v -> {
-            String name = inputName.getText().toString().trim();
-            String email = inputEmail.getText().toString().trim();
+            String newName = inputName.getText().toString().trim();
+            String rgm = inputRGM.getText().toString().trim();
             String password = inputPassword.getText().toString().trim();
 
-            if (isValidEmail(email)) {
+            if (isValidRGM(rgm) && isValidName(newName) && isValidPassword(password)) {
                 // Verifica se o usuário existe
-                if (databaseHelper.userExists(currentEmail.trim())) {
+                if (databaseHelper.rgmExists(currentRGM.trim())) {
                     // Atualiza os dados no banco de dados
-                    boolean isUpdated = databaseHelper.updateUser (currentEmail, name, email, password);
+                    boolean isUpdated = databaseHelper.updateStudent(currentRGM, newName, rgm, password);
                     if (isUpdated) {
                         Toast.makeText(EditProfileActivity.this, "Perfil atualizado com sucesso!", Toast.LENGTH_SHORT).show();
                         // Retorna os dados atualizados para a tela anterior
                         Intent resultIntent = new Intent();
-                        resultIntent.putExtra("name", name);
-                        resultIntent.putExtra("email", email);
+                        resultIntent.putExtra("name", newName);
+                        resultIntent.putExtra("rgm", rgm);
                         resultIntent.putExtra("password", password);
                         setResult(RESULT_OK, resultIntent);
-                        finish(); // Fecha a atividade
+                        finish();
                     } else {
                         Toast.makeText(EditProfileActivity.this, "Erro ao atualizar perfil. Tente novamente.", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Log.d("EditProfileActivity", "Usuário não encontrado no banco de dados para o e-mail: " + currentEmail);
-                    Toast.makeText(EditProfileActivity.this, "Usuário não encontrado. Verifique o e-mail.", Toast.LENGTH_SHORT).show();
+                    Log.d("EditProfileActivity", "Usuário não encontrado no banco de dados para o RGM: " + currentRGM);
+                    Toast.makeText(EditProfileActivity.this, "Usuário não encontrado. Verifique o RGM.", Toast.LENGTH_SHORT).show();
                 }
             } else {
-                // Se o e-mail não for válido, mostra uma mensagem de erro
-                Toast.makeText(EditProfileActivity.this, "Por favor, insira um e-mail válido (@cs.unicid.edu.br)", Toast.LENGTH_SHORT).show();
+                Toast.makeText(EditProfileActivity.this, "Por favor, insira dados válidos.", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    private boolean isValidEmail(String email) {
-        String emailPattern = "^[a-zA-Z0-9._-]+@cs\\.unicid\\.edu\\.br$"; // Validação para e-mail @cs.unicid.edu.br
-        return email.matches(emailPattern);
+    private boolean isValidRGM(String rgm ) {
+        // Lógica de validação do RGM
+        return rgm != null && !rgm.isEmpty() && rgm.matches("\\d+"); // Exemplo: RGM deve ser numérico
+    }
+
+    private boolean isValidName(String name) {
+        // Lógica de validação do nome
+        return name != null && !name.isEmpty(); // O nome não pode ser vazio
+    }
+
+    private boolean isValidPassword(String password) {
+        // Lógica de validação da senha
+        return password != null && password.length() >= 6; // Exemplo: a senha deve ter pelo menos 6 caracteres
     }
 }

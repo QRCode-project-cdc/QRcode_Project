@@ -26,11 +26,11 @@
         android:padding="12dp"/>
 
     <EditText
-        android:id="@+id/inputEmail"
+        android:id="@+id/inputRGM"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:hint="E-mail"
+        android:hint="RGM"
         android:backgroundTint="@color/sky_blue"
         android:padding="12dp"/>
 

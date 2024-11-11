@@ -1,8 +1,8 @@
 package com.example.qrcode;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -21,44 +21,57 @@ public class UserProfileActivity extends AppCompatActivity {
     private String password; // Variável para armazenar a senha
     private DatabaseHelper databaseHelper; // Adicionando o DatabaseHelper
 
-    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_user_profile);
 
+        // Configuração de padding para o layout
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.userprofile), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
+        // Inicializa os TextViews
         textName = findViewById(R.id.textName);
         textEmail = findViewById(R.id.textEmail);
         textPassword = findViewById(R.id.textPassword);
 
         // Inicializa o DatabaseHelper
-        databaseHelper = new DatabaseHelper(this);
+        databaseHelper = DatabaseHelper.getInstance(this);
 
         // Receber os dados da Intent
         Intent intent = getIntent();
-        String email = intent.getStringExtra("EMAIL");
+        String rgm = intent.getStringExtra("RGM"); // Recebendo o RGM
         password = intent.getStringExtra("PASSWORD"); // Armazenar a senha recebida
 
-        // Buscar o nome do usuário no banco de dados
-        String name = databaseHelper.getUserName(email);
+        // Log para verificar o RGM recebido
+        Log.d("User ProfileActivity", "RGM recebido: " + rgm);
+
+        // Verificar se o RGM é nulo
+        if (rgm == null) {
+            Log.e("User ProfileActivity", "RGM é nulo!");
+            updateUserProfile(null, null);
+            return;
+        }
+
+        // Buscar o nome do usuário no banco de dados usando o RGM
+        String name = databaseHelper.getStudentNameByRGM(rgm); // Método para buscar pelo RGM
+
+        // Log para verificar o nome retornado
+        Log.d("User ProfileActivity", "Nome retornado: " + name);
 
         // Atualizar os TextViews com os dados do usuário
-        textName.setText("Nome e Sobrenome: " + (name != null ? name : "Desconhecido"));
-        textEmail.setText("E-mail: " + email);
-        textPassword.setText("Senha: " + getCensoredPassword(password)); // Exibir a senha censurada
+        updateUserProfile(name, rgm);
 
+        // Configurar o botão de edição
         Button buttonEdit = findViewById(R.id.buttonEdit);
         buttonEdit.setOnClickListener(v -> {
             Intent editIntent = new Intent(UserProfileActivity.this, EditProfileActivity.class);
-            // Passar o e-mail e o nome para a EditProfileActivity
-            editIntent.putExtra("email", email);
+            // Passar o RGM e o nome para a EditProfileActivity
+            editIntent.putExtra("rgm", rgm);
             editIntent.putExtra("name", name);
             startActivityForResult(editIntent, EDIT_PROFILE_REQUEST); // Inicia a atividade de edição com um código de solicitação
         });
@@ -70,25 +83,23 @@ public class UserProfileActivity extends AppCompatActivity {
         if (requestCode == EDIT_PROFILE_REQUEST && resultCode == RESULT_OK) {
             // Receber os dados do Intent
             String name = data.getStringExtra("name");
-            String email = data.getStringExtra("email");
-            password = data.getStringExtra("password"); // Armazenar a senha recebida
+            String rgm = data.getStringExtra("rgm");
+            password = data.getStringExtra("password"); // Armazen ar a senha recebida
 
             // Atualizar os TextViews com os novos dados
-            textName.setText("Nome e Sobrenome: " + name);
-            textEmail.setText("E-mail: " + email);
-            textPassword.setText("Senha: " + getCensoredPassword(password)); // Exibir a senha censurada
+            updateUserProfile(name, rgm);
         }
+    }
+
+    // Método para atualizar os TextViews com os dados do usuário
+    private void updateUserProfile(String name, String rgm) {
+        textName.setText(String.format("Nome e Sobrenome: %s", name != null ? name : "Desconhecido"));
+        textEmail.setText(String.format("RGM: %s", rgm != null ? rgm : "Desconhecido"));
+        textPassword.setText(String.format("Senha: %s", getCensoredPassword(password))); // Exibir a senha censurada
     }
 
     // Método para gerar a string de asteriscos com base no comprimento da senha
     private String getCensoredPassword(String password) {
-        if (password == null) {
-            return "********"; // Retorna a string padrão se a senha for nula
-        }
-        StringBuilder censored = new StringBuilder();
-        for (int i = 0; i < password.length(); i++) {
-            censored.append('*'); // Adiciona um asterisco para cada caractere da senha
-        }
-        return censored.toString();
+        return password == null ? "********" : "*".repeat(password.length()); // Retorna a string de asteriscos com base no comprimento da senha
     }
 }
