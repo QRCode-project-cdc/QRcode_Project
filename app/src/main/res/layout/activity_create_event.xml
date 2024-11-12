@@ -1,58 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#0E61F0">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:id="@+id/linearLayout"
+        android:layout_width="411dp"
+        android:layout_height="497dp"
         android:background="#0E61F0"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.004">
 
         <TextView
             android:id="@+id/textView2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="89dp"
             android:layout_gravity="center"
             android:gravity="center"
             android:text="Crie um evento"
-            android:textColor="#FFFFFF"
-            android:textSize="36sp" />
+            android:textColor="#F7F7F8"
+            android:textSize="36sp"
+            app:autoSizeTextType="none" />
 
         <EditText
             android:id="@+id/edtNomeEvento"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="85dp"
             android:ems="10"
             android:hint="Digite o nome do evento"
             android:inputType="text"
             android:textColorHint="#FFFFFF" />
 
         <EditText
-            android:id="@+id/edtTempoEvento"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="Digite a duração de tempo do evento"
-            android:inputType="text"
-            android:textColorHint="#FFFFFF" />
-
-        <EditText
             android:id="@+id/edtDescEvento"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="105dp"
             android:ems="10"
             android:hint="Digite a descrição do evento"
             android:inputType="text"
-            android:textColorHint="#FFFFFF" />
+            android:textColorHint="#FFFFFF"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="409dp"
+        android:layout_height="232dp"
+        android:gravity="clip_horizontal|center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.997">
 
         <Button
             android:id="@+id/buttonCadEvento"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="#568DED"
+            android:layout_height="70dp"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="#03a9f4"
             android:text="Cadastrar evento"
             android:textSize="20sp" />
-
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,20 +5,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import com.example.qrcode.Event;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import java.util.List;
 
 public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHolder> {
 
     private List<Event> eventList;
-    private OnEventClickListener listener;
+    private final OnEventClickListener listener;
 
     public EventAdapter(List<Event> eventList, OnEventClickListener listener) {
         this.eventList = eventList;
         this.listener = listener;
+    }
+
+    public void setEvents(List<Event> newEventList) {
+        this.eventList = newEventList;
+        notifyDataSetChanged(); // Atualiza a RecyclerView com a nova lista
     }
 
     @NonNull
@@ -31,10 +34,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
     @Override
     public void onBindViewHolder(@NonNull EventViewHolder holder, int position) {
         Event event = eventList.get(position);
-        holder.titleTextView.setText(event.getTitle());
-        holder.descriptionTextView.setText(event.getDescription());
-
-        holder.subscribeButton.setOnClickListener(v -> listener.onEventClick(event));
+        holder.bind(event, listener);
     }
 
     @Override
@@ -43,9 +43,9 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
     }
 
     public static class EventViewHolder extends RecyclerView.ViewHolder {
-        TextView titleTextView;
-        TextView descriptionTextView;
-        Button subscribeButton;
+        private final TextView titleTextView;
+        private final TextView descriptionTextView;
+        private final Button subscribeButton;
 
         public EventViewHolder(View itemView) {
             super(itemView);
@@ -53,9 +53,15 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
             descriptionTextView = itemView.findViewById(R.id.textViewEventDescription);
             subscribeButton = itemView.findViewById(R.id.buttonSubscribe);
         }
+
+        public void bind(Event event, OnEventClickListener listener) {
+            titleTextView.setText(event.getTitle());
+            descriptionTextView.setText(event.getDescription());
+            subscribeButton.setOnClickListener(v -> listener.onEventClick(event));
+        }
     }
 
     public interface OnEventClickListener {
-        void onEventClick(Event event);  // A interface que lida com o clique no evento
+        void onEventClick(Event event);
     }
 }
