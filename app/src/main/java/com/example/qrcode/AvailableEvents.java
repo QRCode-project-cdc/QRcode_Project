@@ -1,30 +1,36 @@
 package com.example.qrcode;
 
 import android.os.Bundle;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AvailableEvents extends AppCompatActivity {
 
-    private TextView textView;
+    private RecyclerView recyclerView;
+    private EventAdapter eventAdapter;
+    private List<Event> eventList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_available_events); // Referencia o layout que vamos criar
+        setContentView(R.layout.activity_available_events);
 
-        textView = findViewById(R.id.textView);  // A referência para o TextView que exibirá os eventos
-        displayEvents();
-    }
+        recyclerView = findViewById(R.id.recyclerViewEvents);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-    private void displayEvents() {
-        // Dados de exemplo (simulação de eventos)
-        String eventos = "Evento 1: Nome\n\n" +
-                "Data: 12/12/2024\n" +
-                "Descrição: Evento tal.\n\n" ;
+        eventList = new ArrayList<>();
+        eventList.add(new Event("Evento 1", "Descrição do Evento 1"));
+        eventList.add(new Event("Evento 2", "Descrição do Evento 2"));
+        eventList.add(new Event("Evento 3", "Descrição do Evento 3"));
 
-        // Exibe os eventos no TextView
-        textView.setText(eventos);
+        eventAdapter = new EventAdapter(eventList, event -> {
+            // Ação quando o evento for clicado (por exemplo, abrir detalhes do evento)
+        });
+        recyclerView.setAdapter(eventAdapter);
     }
 }
