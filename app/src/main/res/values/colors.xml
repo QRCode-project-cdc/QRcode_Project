@@ -16,8 +16,10 @@
     <color name="cyber_green">#00E676</color>
     <color name="metallic_silver">#B0BEC5</color>
     <color name="holographic_pink">#FF4081</color>
-
+    <color name="lavender">#8692f7</color>
+    <color name="dodger_blue">#1E90FF</color>
+    <color name="light_blue">#87CEFA</color>
     <color name="text_primary">#FFFFFF</color>
     <color name="text_secondary">#B5B5B5</color>
-    <color name="lavender">#8692f7</color>
+
 </resources>

@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
+    app:cardBackgroundColor="@color/light_blue"
     app:cardCornerRadius="8dp"
     app:cardElevation="4dp">
 
@@ -19,6 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Evento Título"
+            android:textColor="#FFFFFFFF"
             android:textSize="16sp"
             android:textStyle="bold" />
 
@@ -26,16 +28,19 @@
             android:id="@+id/textViewEventDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:text="Descrição do evento"
-            android:textSize="14sp"
-            android:layout_marginTop="8dp" />
+            android:textColor="#FFFFFFFF"
+            android:textSize="14sp" />
 
         <Button
             android:id="@+id/buttonSubscribe"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@color/dodger_blue"
             android:text="Inscrever-se"
-            android:layout_marginTop="16dp" />
+            android:textColor="#FFFFFF" />
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>
