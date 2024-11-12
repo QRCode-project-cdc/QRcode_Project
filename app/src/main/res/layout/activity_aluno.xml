@@ -24,13 +24,15 @@
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/buttonEventOn"
+            android:id="@+id/buttonAvailableEvents"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="150dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
             android:backgroundTint="@color/sky_blue"
             android:text="Eventos Disponíveis"
-            android:textColor="@color/text_primary" />
+            android:textColor="@color/text_primary"
+            android:textColorLink="#673AB7" />
 
         <Button
             android:id="@+id/buttonViewProfile"

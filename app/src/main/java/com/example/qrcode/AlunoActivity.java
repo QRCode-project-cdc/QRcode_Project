@@ -45,5 +45,16 @@ public class AlunoActivity extends AppCompatActivity {
             qrCodeIntent.putExtra("USER_RGM", rgm); // Passando o RGM para a QRCodeActivity
             startActivity(qrCodeIntent);
         });
+
+        // Botão para ver os eventos disponíveis
+        Button buttonAvailableEvents = findViewById(R.id.buttonAvailableEvents);
+        buttonAvailableEvents.setOnClickListener(v -> {
+            if (rgm != null && !rgm.isEmpty()) {
+                Intent availableEventsIntent = new Intent(AlunoActivity.this, AvailableEvents.class);
+                availableEventsIntent.putExtra("RGM", rgm); // Passando o RGM
+                startActivity(availableEventsIntent);
+            }
+        });
+
     }
 }

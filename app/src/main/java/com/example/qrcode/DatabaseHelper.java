@@ -27,6 +27,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_TEACHER_EMAIL = "email";
     private static final String COLUMN_TEACHER_PASSWORD = "password";
 
+    // Tabela e colunas para Eventos
+    private static final String TABLE_EVENTS = "events";
+    private static final String COLUMN_EVENT_ID = "event_id";
+    private static final String COLUMN_EVENT_TITLE = "title";
+    private static final String COLUMN_EVENT_DESCRIPTION = "description";
+    private static final String COLUMN_EVENT_DATE = "date";
+    private static final String COLUMN_EVENT_TEACHER_ID = "teacher_id";
+
     // Construtor privado para evitar instâncias externas
     private DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -58,6 +66,35 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 COLUMN_TEACHER_EMAIL + " TEXT UNIQUE, " +
                 COLUMN_TEACHER_PASSWORD + " TEXT)";
         db.execSQL(createTeachersTable);
+
+        // Criação da tabela de eventos (já estava aqui, mas para garantir)
+        String createEventsTable = "CREATE TABLE " + TABLE_EVENTS + " (" +
+                COLUMN_EVENT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_EVENT_TITLE + " TEXT, " +
+                COLUMN_EVENT_DESCRIPTION + " TEXT, " +
+                COLUMN_EVENT_DATE + " TEXT, " +
+                COLUMN_EVENT_TEACHER_ID + " INTEGER)";
+        db.execSQL(createEventsTable);
+    }
+
+
+    // Método para o professor inserir evento
+    public void addEvent(String title, String date, String description) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("title", title);
+        values.put("date", date);
+        values.put("description", description);
+        values.put("isAvailableForStudents", true);  // Evento visível para alunos
+
+        db.insert("events", null, values);
+        db.close();
+    }
+
+    // Método para obter todos os eventos
+    public Cursor getAllEvents() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.rawQuery("SELECT * FROM " + TABLE_EVENTS, null);
     }
 
     public boolean emailExists(String email) {
@@ -71,11 +108,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // Remove as tabelas antigas e cria novas
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_STUDENTS);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_TEACHERS);
+        // Verifica se a versão foi atualizada e faz a migração necessária
+        if (oldVersion < 2) { // Verifica se a versão antiga é menor que 2
+            // Adiciona a tabela de eventos se não existir
+            String createEventsTable = "CREATE TABLE IF NOT EXISTS " + TABLE_EVENTS + " (" +
+                    COLUMN_EVENT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    COLUMN_EVENT_TITLE + " TEXT, " +
+                    COLUMN_EVENT_DESCRIPTION + " TEXT, " +
+                    COLUMN_EVENT_DATE + " TEXT, " +
+                    COLUMN_EVENT_TEACHER_ID + " INTEGER)";
+            db.execSQL(createEventsTable);
+        }
+
+        // Se necessário, adicione outras verificações de versão e migração aqui
+
+        // Chamando o onCreate para garantir que o banco de dados esteja consistente
         onCreate(db);
     }
+
 
     // Método para adicionar um aluno
     public boolean addStudent(String name, String email, String rgm, String password) {
