@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/light_blue"
     android:orientation="vertical"
-    android:background="@color/blue_bg"
     tools:context=".MainActivity">
 
     <Space
@@ -16,12 +16,12 @@
         android:id="@+id/titleText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_marginTop="128dp"
         android:text="AccessEvents"
         android:textColor="@color/text_primary"
         android:textSize="48sp"
-        android:textStyle="bold"
-        android:layout_gravity="center" />
+        android:textStyle="bold" />
 
     <Space
         android:layout_width="match_parent"
