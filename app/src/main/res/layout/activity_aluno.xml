@@ -30,7 +30,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
             android:backgroundTint="@color/sky_blue"
-            android:text="Eventos Disponíveis"
+            android:text="Eventos"
             android:textColor="@color/text_primary"
             android:textColorLink="#673AB7" />
 
@@ -40,14 +40,6 @@
             android:layout_height="wrap_content"
             android:backgroundTint="@color/sky_blue"
             android:text="Ver Perfil"
-            android:textColor="@color/text_primary" />
-
-        <Button
-            android:id="@+id/buttonQRCode"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/sky_blue"
-            android:text="Gerar QR Code"
             android:textColor="@color/text_primary" />
 
 

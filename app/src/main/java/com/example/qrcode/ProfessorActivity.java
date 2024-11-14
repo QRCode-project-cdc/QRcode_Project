@@ -6,6 +6,8 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.zxing.client.android.Intents;
+
 public class ProfessorActivity extends AppCompatActivity {
 
     private String email;
@@ -31,14 +33,13 @@ public class ProfessorActivity extends AppCompatActivity {
 
         Button buttonActiveEvents = findViewById(R.id.buttonActiveEvents);
         buttonActiveEvents.setOnClickListener(v -> {
-            Intent ActiveEventsIntent = new Intent(ProfessorActivity.this, QRCodeActivity.class); // eventos ativos
-            ActiveEventsIntent.putExtra("USER_EMAIL", email); // Corrigido para usar a variável correta 'email'
+            Intent ActiveEventsIntent = new Intent(ProfessorActivity.this, ActiveEventsActivity.class); // eventos ativos
             startActivity(ActiveEventsIntent);
         });
 
         Button ButtonScanQrcode = findViewById(R.id.ButtonScanQrcode);
         ButtonScanQrcode.setOnClickListener(v -> {
-            Intent ScanQrcodeIntent = new Intent(ProfessorActivity.this, QRCodeActivity.class);
+            Intent ScanQrcodeIntent = new Intent(ProfessorActivity.this, ScanQrcode.class);
             ScanQrcodeIntent.putExtra("USER_EMAIL", email); // Corrigido para usar a variável correta 'email'
             startActivity(ScanQrcodeIntent);
         });

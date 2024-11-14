@@ -39,13 +39,6 @@ public class AlunoActivity extends AppCompatActivity {
             startActivity(viewProfileIntent);
         });
 
-        Button buttonQRCode = findViewById(R.id.buttonQRCode);
-        buttonQRCode.setOnClickListener(v -> {
-            Intent qrCodeIntent = new Intent(AlunoActivity.this, QRCodeActivity.class);
-            qrCodeIntent.putExtra("USER_RGM", rgm); // Passando o RGM para a QRCodeActivity
-            startActivity(qrCodeIntent);
-        });
-
         // Botão para ver os eventos disponíveis
         Button buttonAvailableEvents = findViewById(R.id.buttonAvailableEvents);
         buttonAvailableEvents.setOnClickListener(v -> {
