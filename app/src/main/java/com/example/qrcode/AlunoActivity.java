@@ -1,6 +1,7 @@
 package com.example.qrcode;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -17,6 +18,8 @@ public class AlunoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_aluno);
+
+        Button buttonQuit = findViewById(R.id.buttonQuit);
 
         // Receber os dados da Intent
         Intent intent = getIntent();
@@ -48,6 +51,25 @@ public class AlunoActivity extends AppCompatActivity {
                 startActivity(availableEventsIntent);
             }
         });
+        // Implementando o logout
+        buttonQuit.setOnClickListener(v -> logout());
+    }
 
+    private void logout() {
+        // Caso você esteja utilizando SharedPreferences para armazenar dados de login
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear(); // Limpa todos os dados armazenados
+        editor.apply(); // Aplica a limpeza
+
+        // Log para confirmar que os dados foram limpos
+        Log.d("Logout", "Usuário desconectado e dados limpos.");
+
+        // Redireciona para a LoginActivity (ou a tela de login do seu app)
+        Intent intent = new Intent(AlunoActivity.this, LoginActivity.class);
+        startActivity(intent);
+
+        // Finaliza a AlunoActivity para que o usuário não consiga voltar para ela após o logout
+        finish();
     }
 }

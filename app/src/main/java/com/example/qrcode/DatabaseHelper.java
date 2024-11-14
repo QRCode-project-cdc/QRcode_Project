@@ -145,6 +145,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Verifica se a versão foi atualizada e faz a migração necessária
@@ -322,13 +323,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // Método para registrar a presença do aluno em um evento
     public boolean registerAttendance(String studentRgm, int eventId, String timestamp) {
         ContentValues values = new ContentValues();
-        values.put(COLUMN_REGISTRATION_STUDENT_RGM, studentRgm);
-        values.put(COLUMN_REGISTRATION_EVENT_ID, eventId);
-        values.put(COLUMN_TIMESTAMP, timestamp); // Adicionando a hora do escaneamento
+        values.put("studentRgm", studentRgm);
+        values.put("eventId", eventId);
+
 
         try (SQLiteDatabase db = this.getWritableDatabase()) {
-            long result = db.insert(TABLE_REGISTRATIONS, null, values);
+            long result = db.insert("attendance", null, values); // ou use o nome real da tabela
             return result != -1; // Retorna true se a inserção foi bem-sucedida
+        } catch (Exception e) {
+            Log.e("DatabaseHelper", "Erro ao registrar presença: " + e.getMessage());
+            return false;
         }
     }
     public List<String> getScannedStudents(int eventId) {
@@ -350,5 +354,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
 
         return scannedStudents;
+    }
+    public boolean deleteEvent(int eventId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        int rowsDeleted = db.delete("events", "event_id = ?", new String[]{String.valueOf(eventId)});
+        db.close(); // Sempre feche o banco de dados após operações de escrita/leitura
+        return rowsDeleted > 0; // Retorna true se pelo menos uma linha foi excluída
     }
 }

@@ -67,7 +67,9 @@
         android:id="@+id/buttonEdit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="36dp"
+        android:layout_marginEnd="16dp"
         android:backgroundTint="@color/sky_blue"
         android:text="Editar Perfil"
         android:textColor="@color/text_primary" />

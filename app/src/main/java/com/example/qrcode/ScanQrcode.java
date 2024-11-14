@@ -1,10 +1,12 @@
 package com.example.qrcode;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -38,6 +40,14 @@ public class ScanQrcode extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_scan_qrcode);
+
+        Button btnViewAttendance = findViewById(R.id.btnViewAttendance);
+        btnViewAttendance.setOnClickListener(v -> {
+            int currentEventId = 1; // Substituir pelo ID do evento real
+            Intent intent = new Intent(ScanQrcode.this, AttendanceList.class);
+            intent.putExtra("EVENT_ID", currentEventId);
+            startActivity(intent);
+        });
 
         View mainView = findViewById(R.id.main);
         if (mainView != null) {

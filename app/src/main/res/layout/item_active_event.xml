@@ -41,15 +41,30 @@
             android:text="Alunos Escaneados:"
             android:textColor="#FFFFFFFF"
             android:textSize="14sp" />
-
-        <Button
-            android:id="@+id/buttonStudents"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:backgroundTint="@color/dodger_blue"
-            android:text="Alunos"
-            android:textColor="#FFFFFF" />
+            android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/buttonStudents"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:backgroundTint="@color/dodger_blue"
+                    android:text="Alunos"
+                    android:textColor="#FFFFFF" />
+
+                <Button
+                    android:id="@+id/buttonDelete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginStart="16dp"
+                    android:backgroundTint="@color/dodger_blue"
+                    android:text="Excluir"
+                    android:textColor="#FFFFFF"/>
+        </LinearLayout>
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

@@ -20,11 +20,13 @@ public class ActiveEventsAdapter extends RecyclerView.Adapter<ActiveEventsAdapte
     private List<Event> eventList;
     private Context context;
     private DatabaseHelper databaseHelper;
+    private RegisteredEventAdapter.OnEventClickListener listener;
 
-    public ActiveEventsAdapter(Context context, List<Event> eventList) {
+    public ActiveEventsAdapter(Context context, List<Event> eventList, RegisteredEventAdapter.OnEventClickListener listener) {
         this.context = context;
         this.eventList = eventList;
         this.databaseHelper = DatabaseHelper.getInstance(context);
+        this.listener = listener;
     }
 
     @NonNull
@@ -48,6 +50,11 @@ public class ActiveEventsAdapter extends RecyclerView.Adapter<ActiveEventsAdapte
             Log.d("ActiveEventsAdapter", "Botão de alunos clicado para o evento: " + event.getTitle());
             // Aqui você pode implementar a lógica para abrir uma nova Activity ou fazer outra ação
         });
+
+        holder.buttonDelete.setOnClickListener(v -> {
+            // Chama a função de exclusão
+            deleteEvent(position, event.getId());
+        });
     }
 
     @Override
@@ -60,6 +67,7 @@ public class ActiveEventsAdapter extends RecyclerView.Adapter<ActiveEventsAdapte
         TextView textViewEventDescription;
         TextView textViewScannedStudents; // Adicionando TextView para alunos escaneados
         Button buttonStudents;
+        Button buttonDelete;
 
         public EventViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -67,6 +75,7 @@ public class ActiveEventsAdapter extends RecyclerView.Adapter<ActiveEventsAdapte
             textViewEventDescription = itemView.findViewById(R.id.textViewEventDescription);
             textViewScannedStudents = itemView.findViewById(R.id.textViewScannedStudents); // Referência para a TextView
             buttonStudents = itemView.findViewById(R.id.buttonStudents);
+            buttonDelete = itemView.findViewById(R.id.buttonDelete);
 
             if (buttonStudents == null) {
                 Log.e("EventViewHolder", "buttonStudents é null");
@@ -96,5 +105,18 @@ public class ActiveEventsAdapter extends RecyclerView.Adapter<ActiveEventsAdapte
     private String getCurrentTime() {
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
         return sdf.format(new Date());
+    }
+
+    private void deleteEvent(int position, int eventId) {
+        // Remove do banco de dados
+        boolean deleted = databaseHelper.deleteEvent(eventId);
+        if (deleted) {
+            // Remove da lista e notifica o adapter
+            eventList.remove(position);
+            notifyItemRemoved(position);
+            Toast.makeText(context, "Evento excluído com sucesso.", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(context, "Erro ao excluir o evento.", Toast.LENGTH_SHORT).show();
+        }
     }
 }
