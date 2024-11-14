@@ -1,6 +1,7 @@
 package com.example.qrcode;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -48,8 +50,25 @@ public class ActiveEventsAdapter extends RecyclerView.Adapter<ActiveEventsAdapte
         // Configurar o botão de alunos
         holder.buttonStudents.setOnClickListener(v -> {
             Log.d("ActiveEventsAdapter", "Botão de alunos clicado para o evento: " + event.getTitle());
-            // Aqui você pode implementar a lógica para abrir uma nova Activity ou fazer outra ação
+
+            // Recupera a lista de alunos do evento
+            List<Student> studentsList = databaseHelper.getStudentsForEvent(event.getId());
+
+            // Cria uma lista de nomes dos alunos (ou qualquer outra informação que você queira passar)
+            List<String> studentNamesList = new ArrayList<>();
+            for (Student student : studentsList) {
+                studentNamesList.add(student.getName());  // Assuming you have a getName() method in Student class
+            }
+
+            // Cria um Intent para abrir a StudentListActivity
+            Intent intent = new Intent(context, StudentListActivity.class);
+            // Passa a lista de nomes de alunos para a nova Activity
+            intent.putStringArrayListExtra("studentsList", new ArrayList<>(studentNamesList));
+            context.startActivity(intent);
         });
+
+
+
 
         holder.buttonDelete.setOnClickListener(v -> {
             // Chama a função de exclusão

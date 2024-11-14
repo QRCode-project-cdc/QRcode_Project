@@ -255,6 +255,95 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return null; // Retorna null se não encontrar
     }
 
+    public List<Student> getStudentsForEvent(int eventId) {
+        List<Student> studentsList = new ArrayList<>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // SQL query to retrieve students for the given event
+        String query = "SELECT s.name, s.RGM, s.email FROM students s " +
+                "JOIN event_attendance ea ON s.RGM = ea.student_rgm " +
+                "WHERE ea.event_id = ?";
+
+        // Execute the query
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(eventId)});
+
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                // Extract student details from cursor
+                @SuppressLint("Range") String name = cursor.getString(cursor.getColumnIndex("name"));
+                @SuppressLint("Range") String rgm = cursor.getString(cursor.getColumnIndex("RGM"));
+                @SuppressLint("Range") String email = cursor.getString(cursor.getColumnIndex("email"));
+
+                // Create a new Student object
+                Student student = new Student(rgm, name, email);
+                studentsList.add(student);
+
+            } while (cursor.moveToNext());
+
+            cursor.close();
+        }
+
+        // Return the list of students
+        return studentsList;
+    }
+
+    public List<Student> getStudentsByEventId(int eventId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        List<Student> studentsList = new ArrayList<>();
+
+        // SQL query to retrieve students for the given event
+        String query = "SELECT s.name, s.RGM, s.email FROM students s " +
+                "JOIN event_attendance ea ON s.RGM = ea.student_rgm " + // Assuming a table for student attendance
+                "WHERE ea.event_id = ?";
+
+        // Execute the query
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(eventId)});
+
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                // Extract student details from cursor
+                @SuppressLint("Range") String name = cursor.getString(cursor.getColumnIndex("name"));
+                @SuppressLint("Range") String rgm = cursor.getString(cursor.getColumnIndex("RGM"));
+                @SuppressLint("Range") String email = cursor.getString(cursor.getColumnIndex("email"));
+
+                // Create a new Student object
+                Student student = new Student(rgm, name, email);
+                studentsList.add(student);
+
+            } while (cursor.moveToNext());
+
+            cursor.close();
+        }
+
+        // Return the list of students
+        return studentsList;
+    }
+
+    public Student getStudentByRGM(String rgm) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        // Define the query to fetch student data by RGM
+        String query = "SELECT * FROM students WHERE RGM = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{rgm});
+
+        if (cursor != null && cursor.moveToFirst()) {
+            // Assuming the columns are "name", "RGM", and "email"
+            @SuppressLint("Range") String name = cursor.getString(cursor.getColumnIndex("name"));
+            @SuppressLint("Range") String email = cursor.getString(cursor.getColumnIndex("email"));
+
+            // Create and return a Student object
+            Student student = new Student(rgm, name, email);
+            cursor.close();
+            return student;
+        }
+
+        // Return null if student not found
+        if (cursor != null) {
+            cursor.close();
+        }
+        return null;
+    }
+
     // Método para adicionar dados escaneados
     public void addScannedData(String data) {
         ContentValues values = new ContentValues();

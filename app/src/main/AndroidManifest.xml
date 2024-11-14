@@ -18,11 +18,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.QrCode"
         tools:targetApi="31">
-        <activity
-            android:name=".AttendanceList"
+        <activity   
+            android:name=".StudentListActivity"
             android:exported="false" />
         <activity
-            android:name=".AttendanceListActivity"
+            android:name=".ReturnListAlunos"
+            android:exported="false" />
+        <activity
+            android:name=".AttendanceList"
             android:exported="false" />
         <activity
             android:name=".SubdEvents"
